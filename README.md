@@ -24,8 +24,8 @@
 |------|------|----------------|-----------------|
 | Group Lead | Khushi Chaudhary|2501010221|k-hushii23 |
 | Member 2 | Janvi| 2501010198| jxnvigoel|
-| Member 3 | Siddhi Modi|2501010645 | |
-| Member 4 |Yashika Bharti |2501010572 | |
+| Member 3 | Siddhi Modi|2501010645 | modisiddhi2010|
+| Member 4 |Yashika Bharti |2501010572 | yashikabharti1376-dev|
 
 **Team No.:** T0040· **Section:** Section C · **Repository URL:** [https://github.com/k-hushii23/DE_Project_2026]
 
