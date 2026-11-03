@@ -1,0 +1,11 @@
+{
+  "team_number": "T0040",
+  "group_lead": { "name": "Khushi Chaudhary", "enrollment_no": "2501010221", "github": "k-hushii23" },
+  "members": [
+    { "name": "Janvi", "enrollment_no": "2501010198", "github": "jxnvigoel" },
+    { "name": "Yashika Bharti", "enrollment_no": "2501010572", "github": "" },
+    { "name": "Siddhi Modi", "enrollment_no": "2501010645", "github": "" }
+  ],
+  "postgres_version": "Postgress sql 18.0",
+  "laptop_used_for_benchmarks": "MacBook Pro (Apple M4 chip, 10-core CPU, 16GB RAM)"
+}
