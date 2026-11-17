@@ -266,7 +266,7 @@ FROM users
 WHERE phone = '7300001042';
 
 
--- @R24
+--- @R24
 SELECT full_name, starts_at, fantasy_points
 FROM (
     SELECT p.full_name, m.starts_at, s.fantasy_points,
@@ -337,5 +337,5 @@ WHERE txn_type = 'WITHDRAWAL' AND status = 'PENDING'
   AND created_at < TIMESTAMPTZ '2026-06-30 23:59:00+05:30' - interval '24 hours';
 
 
--- @END
+--- @END
 ROLLBACK;
