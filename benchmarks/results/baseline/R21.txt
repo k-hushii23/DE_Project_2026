@@ -1,0 +1,117 @@
+=== R21 run 1 ===
+Limit  (cost=2665.04..2665.11 rows=30 width=44) (actual time=4.990..4.991 rows=2.00 loops=1)
+  Buffers: shared hit=696
+  ->  Sort  (cost=2665.04..2676.32 rows=4512 width=44) (actual time=4.990..4.990 rows=2.00 loops=1)
+        Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (ce.final_rank = 1)))::numeric) / (count(*))::numeric), 1)) DESC, (count(*)) DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=696
+        ->  HashAggregate  (cost=2306.18..2531.78 rows=4512 width=44) (actual time=4.947..4.980 rows=2.00 loops=1)
+              Group Key: ut.user_id
+              Filter: (count(*) >= 3)
+              Batches: 1  Memory Usage: 409kB
+              Rows Removed by Filter: 1323
+              Buffers: shared hit=690
+              ->  Hash Join  (cost=1102.83..2170.82 rows=13536 width=8) (actual time=2.726..4.736 rows=1616.00 loops=1)
+                    Hash Cond: (ut.user_team_id = ce.user_team_id)
+                    Buffers: shared hit=690
+                    ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=8) (actual time=0.020..0.915 rows=39975.00 loops=1)
+                          Buffers: shared hit=333
+                    ->  Hash  (cost=933.63..933.63 rows=13536 width=8) (actual time=2.687..2.687 rows=1616.00 loops=1)
+                          Buckets: 16384  Batches: 1  Memory Usage: 192kB
+                          Buffers: shared hit=357
+                          ->  Hash Join  (cost=71.40..933.63 rows=13536 width=8) (actual time=0.136..2.615 rows=1616.00 loops=1)
+                                Hash Cond: (ce.contest_id = c.contest_id)
+                                Buffers: shared hit=357
+                                ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=40607 width=12) (actual time=0.002..1.430 rows=40621.00 loops=1)
+                                      Filter: (final_rank IS NOT NULL)
+                                      Rows Removed by Filter: 2125
+                                      Buffers: shared hit=328
+                                ->  Hash  (cost=60.80..60.80 rows=848 width=4) (actual time=0.131..0.131 rows=848.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 38kB
+                                      Buffers: shared hit=29
+                                      ->  Seq Scan on contests c  (cost=0.00..60.80 rows=848 width=4) (actual time=0.003..0.101 rows=848.00 loops=1)
+                                            Filter: ((contest_type)::text = 'HEAD_TO_HEAD'::text)
+                                            Rows Removed by Filter: 1696
+                                            Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.485 ms
+Execution Time: 5.041 ms
+=== R21 run 2 ===
+Limit  (cost=2665.04..2665.11 rows=30 width=44) (actual time=5.000..5.001 rows=2.00 loops=1)
+  Buffers: shared hit=696
+  ->  Sort  (cost=2665.04..2676.32 rows=4512 width=44) (actual time=5.000..5.000 rows=2.00 loops=1)
+        Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (ce.final_rank = 1)))::numeric) / (count(*))::numeric), 1)) DESC, (count(*)) DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=696
+        ->  HashAggregate  (cost=2306.18..2531.78 rows=4512 width=44) (actual time=4.958..4.991 rows=2.00 loops=1)
+              Group Key: ut.user_id
+              Filter: (count(*) >= 3)
+              Batches: 1  Memory Usage: 409kB
+              Rows Removed by Filter: 1323
+              Buffers: shared hit=690
+              ->  Hash Join  (cost=1102.83..2170.82 rows=13536 width=8) (actual time=2.709..4.751 rows=1616.00 loops=1)
+                    Hash Cond: (ut.user_team_id = ce.user_team_id)
+                    Buffers: shared hit=690
+                    ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=8) (actual time=0.003..0.906 rows=39975.00 loops=1)
+                          Buffers: shared hit=333
+                    ->  Hash  (cost=933.63..933.63 rows=13536 width=8) (actual time=2.696..2.696 rows=1616.00 loops=1)
+                          Buckets: 16384  Batches: 1  Memory Usage: 192kB
+                          Buffers: shared hit=357
+                          ->  Hash Join  (cost=71.40..933.63 rows=13536 width=8) (actual time=0.131..2.622 rows=1616.00 loops=1)
+                                Hash Cond: (ce.contest_id = c.contest_id)
+                                Buffers: shared hit=357
+                                ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=40607 width=12) (actual time=0.001..1.448 rows=40621.00 loops=1)
+                                      Filter: (final_rank IS NOT NULL)
+                                      Rows Removed by Filter: 2125
+                                      Buffers: shared hit=328
+                                ->  Hash  (cost=60.80..60.80 rows=848 width=4) (actual time=0.126..0.126 rows=848.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 38kB
+                                      Buffers: shared hit=29
+                                      ->  Seq Scan on contests c  (cost=0.00..60.80 rows=848 width=4) (actual time=0.003..0.098 rows=848.00 loops=1)
+                                            Filter: ((contest_type)::text = 'HEAD_TO_HEAD'::text)
+                                            Rows Removed by Filter: 1696
+                                            Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.446 ms
+Execution Time: 5.045 ms
+=== R21 run 3 ===
+Limit  (cost=2665.04..2665.11 rows=30 width=44) (actual time=4.922..4.923 rows=2.00 loops=1)
+  Buffers: shared hit=696
+  ->  Sort  (cost=2665.04..2676.32 rows=4512 width=44) (actual time=4.921..4.922 rows=2.00 loops=1)
+        Sort Key: (round(((100.0 * (count(*) FILTER (WHERE (ce.final_rank = 1)))::numeric) / (count(*))::numeric), 1)) DESC, (count(*)) DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=696
+        ->  HashAggregate  (cost=2306.18..2531.78 rows=4512 width=44) (actual time=4.877..4.913 rows=2.00 loops=1)
+              Group Key: ut.user_id
+              Filter: (count(*) >= 3)
+              Batches: 1  Memory Usage: 409kB
+              Rows Removed by Filter: 1323
+              Buffers: shared hit=690
+              ->  Hash Join  (cost=1102.83..2170.82 rows=13536 width=8) (actual time=2.688..4.675 rows=1616.00 loops=1)
+                    Hash Cond: (ut.user_team_id = ce.user_team_id)
+                    Buffers: shared hit=690
+                    ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=8) (actual time=0.003..0.888 rows=39975.00 loops=1)
+                          Buffers: shared hit=333
+                    ->  Hash  (cost=933.63..933.63 rows=13536 width=8) (actual time=2.675..2.675 rows=1616.00 loops=1)
+                          Buckets: 16384  Batches: 1  Memory Usage: 192kB
+                          Buffers: shared hit=357
+                          ->  Hash Join  (cost=71.40..933.63 rows=13536 width=8) (actual time=0.142..2.604 rows=1616.00 loops=1)
+                                Hash Cond: (ce.contest_id = c.contest_id)
+                                Buffers: shared hit=357
+                                ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=40607 width=12) (actual time=0.001..1.432 rows=40621.00 loops=1)
+                                      Filter: (final_rank IS NOT NULL)
+                                      Rows Removed by Filter: 2125
+                                      Buffers: shared hit=328
+                                ->  Hash  (cost=60.80..60.80 rows=848 width=4) (actual time=0.137..0.137 rows=848.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 38kB
+                                      Buffers: shared hit=29
+                                      ->  Seq Scan on contests c  (cost=0.00..60.80 rows=848 width=4) (actual time=0.003..0.098 rows=848.00 loops=1)
+                                            Filter: ((contest_type)::text = 'HEAD_TO_HEAD'::text)
+                                            Rows Removed by Filter: 1696
+                                            Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.400 ms
+Execution Time: 4.966 ms

@@ -1,3 +1,6 @@
+CREATE SCHEMA IF NOT EXISTS dream11;
+SET search_path TO dream11;
+
 DROP TABLE IF EXISTS wallet_transactions, contest_entries, contests, user_team_players, user_teams, player_match_stats, matches, players, teams, users CASCADE;
 
 -- 1. Core Reference Tables
@@ -88,7 +91,8 @@ CREATE TABLE contest_entries (
     user_team_id  INT           NOT NULL REFERENCES user_teams(user_team_id),
     joined_at     TIMESTAMPTZ   NOT NULL,
     final_rank    INT,
-    winnings      NUMERIC(10,2) NOT NULL DEFAULT 0
+    winnings      NUMERIC(10,2) NOT NULL DEFAULT 0,
+    UNIQUE (contest_id, user_team_id)
 );
 
 CREATE TABLE wallet_transactions (
@@ -100,14 +104,3 @@ CREATE TABLE wallet_transactions (
     status              VARCHAR(20)   NOT NULL,
     created_at          TIMESTAMPTZ   NOT NULL
 );
-
--- Performance Indexes on Foreign Keys & Frequent Filters
-CREATE INDEX idx_players_team_id ON players(team_id);
-CREATE INDEX idx_matches_starts_at ON matches(starts_at);
-CREATE INDEX idx_user_teams_user_match ON user_teams(user_id, match_id);
-CREATE INDEX idx_utp_player_id ON user_team_players(player_id);
-CREATE INDEX idx_contests_match_id ON contests(match_id);
-CREATE INDEX idx_contest_entries_contest ON contest_entries(contest_id);
-CREATE INDEX idx_contest_entries_team ON contest_entries(user_team_id);
-CREATE INDEX idx_wallet_txn_user_id ON wallet_transactions(user_id);
-CREATE INDEX idx_wallet_txn_ref_entry ON wallet_transactions(reference_entry_id);

@@ -1,0 +1,123 @@
+=== R05 run 1 ===
+Limit  (cost=1238.79..1239.04 rows=100 width=178) (actual time=2.362..2.366 rows=67.00 loops=1)
+  Buffers: shared hit=607
+  ->  Sort  (cost=1238.79..1239.37 rows=230 width=178) (actual time=2.362..2.363 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=607
+        ->  WindowAgg  (cost=1225.99..1230.00 rows=230 width=178) (actual time=2.339..2.353 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=604
+              ->  Sort  (cost=1225.97..1226.55 rows=230 width=170) (actual time=2.335..2.336 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=604
+                    ->  Nested Loop  (cost=359.60..1216.95 rows=230 width=170) (actual time=0.048..2.318 rows=67.00 loops=1)
+                          Buffers: shared hit=601
+                          ->  Hash Join  (cost=359.31..1122.50 rows=230 width=56) (actual time=0.044..2.144 rows=67.00 loops=1)
+                                Hash Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=400
+                                ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=60) (actual time=0.003..1.152 rows=39975.00 loops=1)
+                                      Buffers: shared hit=392
+                                ->  Hash  (cost=356.44..356.44 rows=230 width=4) (actual time=0.022..0.022 rows=67.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                      Buffers: shared hit=8
+                                      ->  Bitmap Heap Scan on contest_entries ce  (cost=6.07..356.44 rows=230 width=4) (actual time=0.011..0.018 rows=67.00 loops=1)
+                                            Recheck Cond: (contest_id = 2185)
+                                            Heap Blocks: exact=5
+                                            Buffers: shared hit=8
+                                            ->  Bitmap Index Scan on contest_entries_contest_id_user_team_id_key  (cost=0.00..6.01 rows=230 width=0) (actual time=0.007..0.007 rows=67.00 loops=1)
+                                                  Index Cond: (contest_id = 2185)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.41 rows=1 width=122) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=316
+Planning Time: 0.416 ms
+Execution Time: 2.397 ms
+=== R05 run 2 ===
+Limit  (cost=1238.79..1239.04 rows=100 width=178) (actual time=2.234..2.237 rows=67.00 loops=1)
+  Buffers: shared hit=607
+  ->  Sort  (cost=1238.79..1239.37 rows=230 width=178) (actual time=2.233..2.235 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=607
+        ->  WindowAgg  (cost=1225.99..1230.00 rows=230 width=178) (actual time=2.212..2.225 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=604
+              ->  Sort  (cost=1225.97..1226.55 rows=230 width=170) (actual time=2.208..2.210 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=604
+                    ->  Nested Loop  (cost=359.60..1216.95 rows=230 width=170) (actual time=0.047..2.192 rows=67.00 loops=1)
+                          Buffers: shared hit=601
+                          ->  Hash Join  (cost=359.31..1122.50 rows=230 width=56) (actual time=0.043..2.025 rows=67.00 loops=1)
+                                Hash Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=400
+                                ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=60) (actual time=0.003..1.079 rows=39975.00 loops=1)
+                                      Buffers: shared hit=392
+                                ->  Hash  (cost=356.44..356.44 rows=230 width=4) (actual time=0.022..0.023 rows=67.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                      Buffers: shared hit=8
+                                      ->  Bitmap Heap Scan on contest_entries ce  (cost=6.07..356.44 rows=230 width=4) (actual time=0.011..0.019 rows=67.00 loops=1)
+                                            Recheck Cond: (contest_id = 2185)
+                                            Heap Blocks: exact=5
+                                            Buffers: shared hit=8
+                                            ->  Bitmap Index Scan on contest_entries_contest_id_user_team_id_key  (cost=0.00..6.01 rows=230 width=0) (actual time=0.007..0.007 rows=67.00 loops=1)
+                                                  Index Cond: (contest_id = 2185)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.41 rows=1 width=122) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=316
+Planning Time: 0.408 ms
+Execution Time: 2.268 ms
+=== R05 run 3 ===
+Limit  (cost=1238.79..1239.04 rows=100 width=178) (actual time=2.193..2.197 rows=67.00 loops=1)
+  Buffers: shared hit=607
+  ->  Sort  (cost=1238.79..1239.37 rows=230 width=178) (actual time=2.192..2.194 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=607
+        ->  WindowAgg  (cost=1225.99..1230.00 rows=230 width=178) (actual time=2.169..2.183 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=604
+              ->  Sort  (cost=1225.97..1226.55 rows=230 width=170) (actual time=2.165..2.167 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=604
+                    ->  Nested Loop  (cost=359.60..1216.95 rows=230 width=170) (actual time=0.060..2.146 rows=67.00 loops=1)
+                          Buffers: shared hit=601
+                          ->  Hash Join  (cost=359.31..1122.50 rows=230 width=56) (actual time=0.053..1.972 rows=67.00 loops=1)
+                                Hash Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=400
+                                ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=60) (actual time=0.004..1.061 rows=39975.00 loops=1)
+                                      Buffers: shared hit=392
+                                ->  Hash  (cost=356.44..356.44 rows=230 width=4) (actual time=0.026..0.027 rows=67.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                      Buffers: shared hit=8
+                                      ->  Bitmap Heap Scan on contest_entries ce  (cost=6.07..356.44 rows=230 width=4) (actual time=0.013..0.022 rows=67.00 loops=1)
+                                            Recheck Cond: (contest_id = 2185)
+                                            Heap Blocks: exact=5
+                                            Buffers: shared hit=8
+                                            ->  Bitmap Index Scan on contest_entries_contest_id_user_team_id_key  (cost=0.00..6.01 rows=230 width=0) (actual time=0.008..0.009 rows=67.00 loops=1)
+                                                  Index Cond: (contest_id = 2185)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.41 rows=1 width=122) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=316
+Planning Time: 0.415 ms
+Execution Time: 2.235 ms

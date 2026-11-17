@@ -1,0 +1,144 @@
+=== R25 run 1 ===
+Sort  (cost=4481.16..4482.67 rows=602 width=17) (actual time=7.570..7.573 rows=58.00 loops=1)
+  Sort Key: m.match_id, ce.entry_id
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=1792
+  ->  Hash Join  (cost=1874.52..4453.37 rows=602 width=17) (actual time=7.544..7.557 rows=58.00 loops=1)
+        Hash Cond: (ce.contest_id = c.contest_id)
+        Buffers: shared hit=1789
+        ->  Hash Right Anti Join  (cost=1781.92..4359.19 rows=602 width=16) (actual time=7.272..7.280 rows=58.00 loops=1)
+              Hash Cond: (w.reference_entry_id = ce.entry_id)
+              Buffers: shared hit=1760
+              ->  Seq Scan on wallet_transactions w  (cost=0.00..2575.29 rows=521 width=4) (actual time=0.373..3.215 rows=487.00 loops=1)
+                    Filter: ((txn_type)::text = 'REFUND'::text)
+                    Rows Removed by Filter: 117856
+                    Buffers: shared hit=1096
+              ->  Hash  (cost=1774.36..1774.36 rows=605 width=16) (actual time=4.027..4.028 rows=545.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 34kB
+                    Buffers: shared hit=664
+                    ->  Hash Join  (cost=852.55..1774.36 rows=605 width=16) (actual time=1.978..4.003 rows=545.00 loops=1)
+                          Hash Cond: (ce.user_team_id = ut.user_team_id)
+                          Buffers: shared hit=664
+                          ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=42746 width=12) (actual time=0.002..0.937 rows=42746.00 loops=1)
+                                Buffers: shared hit=328
+                          ->  Hash  (cost=845.47..845.47 rows=566 width=12) (actual time=1.895..1.895 rows=463.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 28kB
+                                Buffers: shared hit=336
+                                ->  Hash Join  (cost=5.69..845.47 rows=566 width=12) (actual time=0.020..1.870 rows=463.00 loops=1)
+                                      Hash Cond: (ut.match_id = m.match_id)
+                                      Buffers: shared hit=336
+                                      ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=12) (actual time=0.002..0.860 rows=39975.00 loops=1)
+                                            Buffers: shared hit=333
+                                      ->  Hash  (cost=5.65..5.65 rows=3 width=4) (actual time=0.011..0.011 rows=3.00 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                            Buffers: shared hit=3
+                                            ->  Seq Scan on matches m  (cost=0.00..5.65 rows=3 width=4) (actual time=0.002..0.009 rows=3.00 loops=1)
+                                                  Filter: ((status)::text = 'ABANDONED'::text)
+                                                  Rows Removed by Filter: 209
+                                                  Buffers: shared hit=3
+        ->  Hash  (cost=60.80..60.80 rows=2544 width=9) (actual time=0.267..0.267 rows=2544.00 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 142kB
+              Buffers: shared hit=29
+              ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=9) (actual time=0.004..0.152 rows=2544.00 loops=1)
+                    Filter: (entry_fee > '0'::numeric)
+                    Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.572 ms
+Execution Time: 7.599 ms
+=== R25 run 2 ===
+Sort  (cost=4481.16..4482.67 rows=602 width=17) (actual time=7.633..7.635 rows=58.00 loops=1)
+  Sort Key: m.match_id, ce.entry_id
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=1792
+  ->  Hash Join  (cost=1874.52..4453.37 rows=602 width=17) (actual time=7.605..7.618 rows=58.00 loops=1)
+        Hash Cond: (ce.contest_id = c.contest_id)
+        Buffers: shared hit=1789
+        ->  Hash Right Anti Join  (cost=1781.92..4359.19 rows=602 width=16) (actual time=7.312..7.320 rows=58.00 loops=1)
+              Hash Cond: (w.reference_entry_id = ce.entry_id)
+              Buffers: shared hit=1760
+              ->  Seq Scan on wallet_transactions w  (cost=0.00..2575.29 rows=521 width=4) (actual time=0.341..3.306 rows=487.00 loops=1)
+                    Filter: ((txn_type)::text = 'REFUND'::text)
+                    Rows Removed by Filter: 117856
+                    Buffers: shared hit=1096
+              ->  Hash  (cost=1774.36..1774.36 rows=605 width=16) (actual time=3.979..3.979 rows=545.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 34kB
+                    Buffers: shared hit=664
+                    ->  Hash Join  (cost=852.55..1774.36 rows=605 width=16) (actual time=1.964..3.954 rows=545.00 loops=1)
+                          Hash Cond: (ce.user_team_id = ut.user_team_id)
+                          Buffers: shared hit=664
+                          ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=42746 width=12) (actual time=0.002..0.921 rows=42746.00 loops=1)
+                                Buffers: shared hit=328
+                          ->  Hash  (cost=845.47..845.47 rows=566 width=12) (actual time=1.887..1.888 rows=463.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 28kB
+                                Buffers: shared hit=336
+                                ->  Hash Join  (cost=5.69..845.47 rows=566 width=12) (actual time=0.019..1.862 rows=463.00 loops=1)
+                                      Hash Cond: (ut.match_id = m.match_id)
+                                      Buffers: shared hit=336
+                                      ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=12) (actual time=0.002..0.859 rows=39975.00 loops=1)
+                                            Buffers: shared hit=333
+                                      ->  Hash  (cost=5.65..5.65 rows=3 width=4) (actual time=0.011..0.012 rows=3.00 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                            Buffers: shared hit=3
+                                            ->  Seq Scan on matches m  (cost=0.00..5.65 rows=3 width=4) (actual time=0.002..0.010 rows=3.00 loops=1)
+                                                  Filter: ((status)::text = 'ABANDONED'::text)
+                                                  Rows Removed by Filter: 209
+                                                  Buffers: shared hit=3
+        ->  Hash  (cost=60.80..60.80 rows=2544 width=9) (actual time=0.287..0.287 rows=2544.00 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 142kB
+              Buffers: shared hit=29
+              ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=9) (actual time=0.004..0.155 rows=2544.00 loops=1)
+                    Filter: (entry_fee > '0'::numeric)
+                    Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.593 ms
+Execution Time: 7.662 ms
+=== R25 run 3 ===
+Sort  (cost=4481.16..4482.67 rows=602 width=17) (actual time=7.624..7.626 rows=58.00 loops=1)
+  Sort Key: m.match_id, ce.entry_id
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=1792
+  ->  Hash Join  (cost=1874.52..4453.37 rows=602 width=17) (actual time=7.594..7.610 rows=58.00 loops=1)
+        Hash Cond: (ce.contest_id = c.contest_id)
+        Buffers: shared hit=1789
+        ->  Hash Right Anti Join  (cost=1781.92..4359.19 rows=602 width=16) (actual time=7.322..7.331 rows=58.00 loops=1)
+              Hash Cond: (w.reference_entry_id = ce.entry_id)
+              Buffers: shared hit=1760
+              ->  Seq Scan on wallet_transactions w  (cost=0.00..2575.29 rows=521 width=4) (actual time=0.338..3.328 rows=487.00 loops=1)
+                    Filter: ((txn_type)::text = 'REFUND'::text)
+                    Rows Removed by Filter: 117856
+                    Buffers: shared hit=1096
+              ->  Hash  (cost=1774.36..1774.36 rows=605 width=16) (actual time=3.962..3.963 rows=545.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 34kB
+                    Buffers: shared hit=664
+                    ->  Hash Join  (cost=852.55..1774.36 rows=605 width=16) (actual time=1.966..3.938 rows=545.00 loops=1)
+                          Hash Cond: (ce.user_team_id = ut.user_team_id)
+                          Buffers: shared hit=664
+                          ->  Seq Scan on contest_entries ce  (cost=0.00..755.46 rows=42746 width=12) (actual time=0.002..0.912 rows=42746.00 loops=1)
+                                Buffers: shared hit=328
+                          ->  Hash  (cost=845.47..845.47 rows=566 width=12) (actual time=1.889..1.889 rows=463.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 28kB
+                                Buffers: shared hit=336
+                                ->  Hash Join  (cost=5.69..845.47 rows=566 width=12) (actual time=0.018..1.863 rows=463.00 loops=1)
+                                      Hash Cond: (ut.match_id = m.match_id)
+                                      Buffers: shared hit=336
+                                      ->  Seq Scan on user_teams ut  (cost=0.00..732.75 rows=39975 width=12) (actual time=0.002..0.858 rows=39975.00 loops=1)
+                                            Buffers: shared hit=333
+                                      ->  Hash  (cost=5.65..5.65 rows=3 width=4) (actual time=0.010..0.011 rows=3.00 loops=1)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                            Buffers: shared hit=3
+                                            ->  Seq Scan on matches m  (cost=0.00..5.65 rows=3 width=4) (actual time=0.002..0.009 rows=3.00 loops=1)
+                                                  Filter: ((status)::text = 'ABANDONED'::text)
+                                                  Rows Removed by Filter: 209
+                                                  Buffers: shared hit=3
+        ->  Hash  (cost=60.80..60.80 rows=2544 width=9) (actual time=0.267..0.267 rows=2544.00 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 142kB
+              Buffers: shared hit=29
+              ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=9) (actual time=0.003..0.149 rows=2544.00 loops=1)
+                    Filter: (entry_fee > '0'::numeric)
+                    Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=247
+Planning Time: 0.526 ms
+Execution Time: 7.651 ms

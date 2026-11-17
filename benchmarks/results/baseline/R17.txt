@@ -1,0 +1,75 @@
+=== R17 run 1 ===
+Sort  (cost=3778.37..3811.71 rows=13333 width=16) (actual time=12.103..12.104 rows=14.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=779
+  ->  HashAggregate  (cost=2364.88..2864.88 rows=13333 width=16) (actual time=10.675..12.095 rows=14.00 loops=1)
+        Group Key: ce.contest_id, ut.user_id
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 2841kB
+        Rows Removed by Filter: 42718
+        Buffers: shared hit=776
+        ->  Hash Join  (cost=1053.50..2019.28 rows=46080 width=8) (actual time=3.226..7.320 rows=42746.00 loops=1)
+              Hash Cond: (ce.user_team_id = ut.user_team_id)
+              Buffers: shared hit=776
+              ->  Seq Scan on contest_entries ce  (cost=0.00..844.80 rows=46080 width=8) (actual time=0.005..1.187 rows=42746.00 loops=1)
+                    Buffers: shared hit=384
+              ->  Hash  (cost=686.00..686.00 rows=29400 width=8) (actual time=3.205..3.205 rows=39975.00 loops=1)
+                    Buckets: 65536 (originally 32768)  Batches: 1 (originally 1)  Memory Usage: 2074kB
+                    Buffers: shared hit=392
+                    ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=8) (actual time=0.003..1.598 rows=39975.00 loops=1)
+                          Buffers: shared hit=392
+Planning:
+  Buffers: shared hit=158
+Planning Time: 0.326 ms
+Execution Time: 12.209 ms
+=== R17 run 2 ===
+Sort  (cost=3778.37..3811.71 rows=13333 width=16) (actual time=11.873..11.874 rows=14.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=779
+  ->  HashAggregate  (cost=2364.88..2864.88 rows=13333 width=16) (actual time=10.589..11.866 rows=14.00 loops=1)
+        Group Key: ce.contest_id, ut.user_id
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 2841kB
+        Rows Removed by Filter: 42718
+        Buffers: shared hit=776
+        ->  Hash Join  (cost=1053.50..2019.28 rows=46080 width=8) (actual time=3.131..7.205 rows=42746.00 loops=1)
+              Hash Cond: (ce.user_team_id = ut.user_team_id)
+              Buffers: shared hit=776
+              ->  Seq Scan on contest_entries ce  (cost=0.00..844.80 rows=46080 width=8) (actual time=0.004..1.194 rows=42746.00 loops=1)
+                    Buffers: shared hit=384
+              ->  Hash  (cost=686.00..686.00 rows=29400 width=8) (actual time=3.111..3.111 rows=39975.00 loops=1)
+                    Buckets: 65536 (originally 32768)  Batches: 1 (originally 1)  Memory Usage: 2074kB
+                    Buffers: shared hit=392
+                    ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=8) (actual time=0.003..1.563 rows=39975.00 loops=1)
+                          Buffers: shared hit=392
+Planning:
+  Buffers: shared hit=158
+Planning Time: 0.228 ms
+Execution Time: 11.962 ms
+=== R17 run 3 ===
+Sort  (cost=3778.37..3811.71 rows=13333 width=16) (actual time=12.049..12.050 rows=14.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=779
+  ->  HashAggregate  (cost=2364.88..2864.88 rows=13333 width=16) (actual time=10.760..12.042 rows=14.00 loops=1)
+        Group Key: ce.contest_id, ut.user_id
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 2841kB
+        Rows Removed by Filter: 42718
+        Buffers: shared hit=776
+        ->  Hash Join  (cost=1053.50..2019.28 rows=46080 width=8) (actual time=3.078..7.303 rows=42746.00 loops=1)
+              Hash Cond: (ce.user_team_id = ut.user_team_id)
+              Buffers: shared hit=776
+              ->  Seq Scan on contest_entries ce  (cost=0.00..844.80 rows=46080 width=8) (actual time=0.005..1.206 rows=42746.00 loops=1)
+                    Buffers: shared hit=384
+              ->  Hash  (cost=686.00..686.00 rows=29400 width=8) (actual time=3.058..3.058 rows=39975.00 loops=1)
+                    Buckets: 65536 (originally 32768)  Batches: 1 (originally 1)  Memory Usage: 2074kB
+                    Buffers: shared hit=392
+                    ->  Seq Scan on user_teams ut  (cost=0.00..686.00 rows=29400 width=8) (actual time=0.003..1.533 rows=39975.00 loops=1)
+                          Buffers: shared hit=392
+Planning:
+  Buffers: shared hit=158
+Planning Time: 0.253 ms
+Execution Time: 12.135 ms

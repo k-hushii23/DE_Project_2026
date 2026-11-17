@@ -1,0 +1,102 @@
+=== R14 run 1 ===
+Sort  (cost=142.71..143.21 rows=200 width=98) (actual time=9.317..9.318 rows=4.00 loops=1)
+  Sort Key: (count(DISTINCT c.contest_id)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15199
+  ->  GroupAggregate  (cost=127.57..135.07 rows=200 width=98) (actual time=7.948..9.313 rows=4.00 loops=1)
+        Group Key: c.contest_type
+        Buffers: shared hit=15196
+        ->  Sort  (cost=127.57..128.17 rows=240 width=70) (actual time=7.890..8.261 rows=20696.00 loops=1)
+              Sort Key: c.contest_type, c.contest_id
+              Sort Method: quicksort  Memory: 1583kB
+              Buffers: shared hit=15196
+              ->  Nested Loop Left Join  (cost=13.45..118.08 rows=240 width=70) (actual time=0.126..3.125 rows=20696.00 loops=1)
+                    Buffers: shared hit=15190
+                    ->  Hash Join  (cost=13.16..73.34 rows=5 width=66) (actual time=0.120..0.253 rows=1116.00 loops=1)
+                          Hash Cond: (c.match_id = m.match_id)
+                          Buffers: shared hit=51
+                          ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=70) (actual time=0.003..0.089 rows=2544.00 loops=1)
+                                Buffers: shared hit=48
+                          ->  Hash  (cost=13.15..13.15 rows=1 width=4) (actual time=0.044..0.045 rows=93.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on matches m  (cost=0.00..13.15 rows=1 width=4) (actual time=0.030..0.039 rows=93.00 loops=1)
+                                      Filter: (((status)::text = 'COMPLETED'::text) AND (EXTRACT(year FROM starts_at) = '2026'::numeric))
+                                      Rows Removed by Filter: 119
+                                      Buffers: shared hit=3
+                    ->  Index Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..6.65 rows=230 width=8) (actual time=0.001..0.002 rows=18.54 loops=1116)
+                          Index Cond: (contest_id = c.contest_id)
+                          Index Searches: 1116
+                          Buffers: shared hit=15139
+Planning:
+  Buffers: shared hit=209
+Planning Time: 0.312 ms
+Execution Time: 9.347 ms
+=== R14 run 2 ===
+Sort  (cost=142.71..143.21 rows=200 width=98) (actual time=9.162..9.163 rows=4.00 loops=1)
+  Sort Key: (count(DISTINCT c.contest_id)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15199
+  ->  GroupAggregate  (cost=127.57..135.07 rows=200 width=98) (actual time=7.797..9.158 rows=4.00 loops=1)
+        Group Key: c.contest_type
+        Buffers: shared hit=15196
+        ->  Sort  (cost=127.57..128.17 rows=240 width=70) (actual time=7.735..8.106 rows=20696.00 loops=1)
+              Sort Key: c.contest_type, c.contest_id
+              Sort Method: quicksort  Memory: 1583kB
+              Buffers: shared hit=15196
+              ->  Nested Loop Left Join  (cost=13.45..118.08 rows=240 width=70) (actual time=0.123..3.150 rows=20696.00 loops=1)
+                    Buffers: shared hit=15190
+                    ->  Hash Join  (cost=13.16..73.34 rows=5 width=66) (actual time=0.116..0.260 rows=1116.00 loops=1)
+                          Hash Cond: (c.match_id = m.match_id)
+                          Buffers: shared hit=51
+                          ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=70) (actual time=0.004..0.090 rows=2544.00 loops=1)
+                                Buffers: shared hit=48
+                          ->  Hash  (cost=13.15..13.15 rows=1 width=4) (actual time=0.037..0.037 rows=93.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on matches m  (cost=0.00..13.15 rows=1 width=4) (actual time=0.021..0.031 rows=93.00 loops=1)
+                                      Filter: (((status)::text = 'COMPLETED'::text) AND (EXTRACT(year FROM starts_at) = '2026'::numeric))
+                                      Rows Removed by Filter: 119
+                                      Buffers: shared hit=3
+                    ->  Index Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..6.65 rows=230 width=8) (actual time=0.001..0.002 rows=18.54 loops=1116)
+                          Index Cond: (contest_id = c.contest_id)
+                          Index Searches: 1116
+                          Buffers: shared hit=15139
+Planning:
+  Buffers: shared hit=209
+Planning Time: 0.329 ms
+Execution Time: 9.193 ms
+=== R14 run 3 ===
+Sort  (cost=142.71..143.21 rows=200 width=98) (actual time=9.684..9.685 rows=4.00 loops=1)
+  Sort Key: (count(DISTINCT c.contest_id)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=15199
+  ->  GroupAggregate  (cost=127.57..135.07 rows=200 width=98) (actual time=8.309..9.682 rows=4.00 loops=1)
+        Group Key: c.contest_type
+        Buffers: shared hit=15196
+        ->  Sort  (cost=127.57..128.17 rows=240 width=70) (actual time=8.240..8.609 rows=20696.00 loops=1)
+              Sort Key: c.contest_type, c.contest_id
+              Sort Method: quicksort  Memory: 1583kB
+              Buffers: shared hit=15196
+              ->  Nested Loop Left Join  (cost=13.45..118.08 rows=240 width=70) (actual time=0.114..3.163 rows=20696.00 loops=1)
+                    Buffers: shared hit=15190
+                    ->  Hash Join  (cost=13.16..73.34 rows=5 width=66) (actual time=0.108..0.250 rows=1116.00 loops=1)
+                          Hash Cond: (c.match_id = m.match_id)
+                          Buffers: shared hit=51
+                          ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=70) (actual time=0.003..0.092 rows=2544.00 loops=1)
+                                Buffers: shared hit=48
+                          ->  Hash  (cost=13.15..13.15 rows=1 width=4) (actual time=0.034..0.034 rows=93.00 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on matches m  (cost=0.00..13.15 rows=1 width=4) (actual time=0.020..0.029 rows=93.00 loops=1)
+                                      Filter: (((status)::text = 'COMPLETED'::text) AND (EXTRACT(year FROM starts_at) = '2026'::numeric))
+                                      Rows Removed by Filter: 119
+                                      Buffers: shared hit=3
+                    ->  Index Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..6.65 rows=230 width=8) (actual time=0.001..0.002 rows=18.54 loops=1116)
+                          Index Cond: (contest_id = c.contest_id)
+                          Index Searches: 1116
+                          Buffers: shared hit=15139
+Planning:
+  Buffers: shared hit=209
+Planning Time: 0.308 ms
+Execution Time: 9.717 ms

@@ -1,0 +1,84 @@
+=== R19 run 1 ===
+Sort  (cost=7681.85..7681.86 rows=1 width=230) (actual time=2344.014..2344.021 rows=250.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 35kB
+  Buffers: shared hit=500008
+  ->  Hash Join  (cost=12.89..7681.84 rows=1 width=230) (actual time=10.190..2343.968 rows=250.00 loops=1)
+        Hash Cond: (p.team_id = t.team_id)
+        Buffers: shared hit=500005
+        ->  Seq Scan on players p  (cost=0.00..12.60 rows=260 width=226) (actual time=0.004..0.033 rows=450.00 loops=1)
+              Buffers: shared hit=4
+        ->  Hash  (cost=12.88..12.88 rows=1 width=4) (actual time=0.005..0.006 rows=10.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on teams t  (cost=0.00..12.88 rows=1 width=4) (actual time=0.003..0.004 rows=10.00 loops=1)
+                    Filter: ((team_type)::text = 'FRANCHISE'::text)
+                    Rows Removed by Filter: 8
+                    Buffers: shared hit=1
+        SubPlan 1
+          ->  Aggregate  (cost=7655.65..7655.66 rows=1 width=8) (actual time=9.375..9.375 rows=1.00 loops=250)
+                Buffers: shared hit=500000
+                ->  Seq Scan on user_team_players utp  (cost=0.00..7650.00 rows=2260 width=0) (actual time=1.131..9.345 rows=1185.28 loops=250)
+                      Filter: (player_id = p.player_id)
+                      Rows Removed by Filter: 438740
+                      Buffers: shared hit=500000
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.343 ms
+Execution Time: 2344.058 ms
+=== R19 run 2 ===
+Sort  (cost=7681.85..7681.86 rows=1 width=230) (actual time=2515.695..2515.702 rows=250.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 35kB
+  Buffers: shared hit=500008
+  ->  Hash Join  (cost=12.89..7681.84 rows=1 width=230) (actual time=11.651..2515.625 rows=250.00 loops=1)
+        Hash Cond: (p.team_id = t.team_id)
+        Buffers: shared hit=500005
+        ->  Seq Scan on players p  (cost=0.00..12.60 rows=260 width=226) (actual time=0.004..0.040 rows=450.00 loops=1)
+              Buffers: shared hit=4
+        ->  Hash  (cost=12.88..12.88 rows=1 width=4) (actual time=0.006..0.006 rows=10.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on teams t  (cost=0.00..12.88 rows=1 width=4) (actual time=0.003..0.004 rows=10.00 loops=1)
+                    Filter: ((team_type)::text = 'FRANCHISE'::text)
+                    Rows Removed by Filter: 8
+                    Buffers: shared hit=1
+        SubPlan 1
+          ->  Aggregate  (cost=7655.65..7655.66 rows=1 width=8) (actual time=10.061..10.061 rows=1.00 loops=250)
+                Buffers: shared hit=500000
+                ->  Seq Scan on user_team_players utp  (cost=0.00..7650.00 rows=2260 width=0) (actual time=1.199..10.031 rows=1185.28 loops=250)
+                      Filter: (player_id = p.player_id)
+                      Rows Removed by Filter: 438740
+                      Buffers: shared hit=500000
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.401 ms
+Execution Time: 2515.764 ms
+=== R19 run 3 ===
+Sort  (cost=7681.85..7681.86 rows=1 width=230) (actual time=2178.072..2178.079 rows=250.00 loops=1)
+  Sort Key: ((SubPlan 1)) DESC
+  Sort Method: quicksort  Memory: 35kB
+  Buffers: shared hit=500008
+  ->  Hash Join  (cost=12.89..7681.84 rows=1 width=230) (actual time=10.298..2178.009 rows=250.00 loops=1)
+        Hash Cond: (p.team_id = t.team_id)
+        Buffers: shared hit=500005
+        ->  Seq Scan on players p  (cost=0.00..12.60 rows=260 width=226) (actual time=0.004..0.038 rows=450.00 loops=1)
+              Buffers: shared hit=4
+        ->  Hash  (cost=12.88..12.88 rows=1 width=4) (actual time=0.006..0.006 rows=10.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on teams t  (cost=0.00..12.88 rows=1 width=4) (actual time=0.003..0.004 rows=10.00 loops=1)
+                    Filter: ((team_type)::text = 'FRANCHISE'::text)
+                    Rows Removed by Filter: 8
+                    Buffers: shared hit=1
+        SubPlan 1
+          ->  Aggregate  (cost=7655.65..7655.66 rows=1 width=8) (actual time=8.711..8.711 rows=1.00 loops=250)
+                Buffers: shared hit=500000
+                ->  Seq Scan on user_team_players utp  (cost=0.00..7650.00 rows=2260 width=0) (actual time=1.047..8.681 rows=1185.28 loops=250)
+                      Filter: (player_id = p.player_id)
+                      Rows Removed by Filter: 438740
+                      Buffers: shared hit=500000
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.379 ms
+Execution Time: 2178.120 ms

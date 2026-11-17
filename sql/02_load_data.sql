@@ -1,3 +1,4 @@
+SET search_path TO dream11;
 BEGIN;
 
 \copy teams FROM 'seed_data/teams.csv' WITH (FORMAT csv, HEADER true);

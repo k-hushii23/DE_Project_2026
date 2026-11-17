@@ -1,0 +1,120 @@
+=== R01 run 1 ===
+Sort  (cost=90.25..90.27 rows=5 width=160) (actual time=0.262..0.262 rows=6.00 loops=1)
+  Sort Key: m.starts_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=84
+  ->  GroupAggregate  (cost=90.03..90.20 rows=5 width=160) (actual time=0.246..0.255 rows=6.00 loops=1)
+        Group Key: m.match_id, h.short_name, a.short_name
+        Buffers: shared hit=81
+        ->  Sort  (cost=90.03..90.05 rows=5 width=108) (actual time=0.237..0.239 rows=72.00 loops=1)
+              Sort Key: m.match_id, h.short_name, a.short_name
+              Sort Method: quicksort  Memory: 28kB
+              Buffers: shared hit=81
+              ->  Hash Right Join  (cost=28.73..89.98 rows=5 width=108) (actual time=0.196..0.219 rows=72.00 loops=1)
+                    Hash Cond: (c.match_id = m.match_id)
+                    Buffers: shared hit=75
+                    ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=24) (actual time=0.004..0.107 rows=2544.00 loops=1)
+                          Buffers: shared hit=48
+                    ->  Hash  (cost=28.71..28.71 rows=1 width=88) (actual time=0.029..0.029 rows=6.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=27
+                          ->  Nested Loop  (cost=0.29..28.71 rows=1 width=88) (actual time=0.021..0.026 rows=6.00 loops=1)
+                                Buffers: shared hit=27
+                                ->  Nested Loop  (cost=0.14..20.48 rows=1 width=54) (actual time=0.018..0.021 rows=6.00 loops=1)
+                                      Buffers: shared hit=15
+                                      ->  Seq Scan on matches m  (cost=0.00..12.25 rows=1 width=20) (actual time=0.015..0.015 rows=6.00 loops=1)
+                                            Filter: ((status)::text = 'UPCOMING'::text)
+                                            Rows Removed by Filter: 206
+                                            Buffers: shared hit=3
+                                      ->  Index Scan using teams_pkey on teams h  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                            Index Cond: (team_id = m.home_team_id)
+                                            Index Searches: 6
+                                            Buffers: shared hit=12
+                                ->  Index Scan using teams_pkey on teams a  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                      Index Cond: (team_id = m.away_team_id)
+                                      Index Searches: 6
+                                      Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=218 read=5
+Planning Time: 0.828 ms
+Execution Time: 0.312 ms
+=== R01 run 2 ===
+Sort  (cost=90.25..90.27 rows=5 width=160) (actual time=0.249..0.250 rows=6.00 loops=1)
+  Sort Key: m.starts_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=84
+  ->  GroupAggregate  (cost=90.03..90.20 rows=5 width=160) (actual time=0.235..0.243 rows=6.00 loops=1)
+        Group Key: m.match_id, h.short_name, a.short_name
+        Buffers: shared hit=81
+        ->  Sort  (cost=90.03..90.05 rows=5 width=108) (actual time=0.226..0.228 rows=72.00 loops=1)
+              Sort Key: m.match_id, h.short_name, a.short_name
+              Sort Method: quicksort  Memory: 28kB
+              Buffers: shared hit=81
+              ->  Hash Right Join  (cost=28.73..89.98 rows=5 width=108) (actual time=0.187..0.210 rows=72.00 loops=1)
+                    Hash Cond: (c.match_id = m.match_id)
+                    Buffers: shared hit=75
+                    ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=24) (actual time=0.003..0.102 rows=2544.00 loops=1)
+                          Buffers: shared hit=48
+                    ->  Hash  (cost=28.71..28.71 rows=1 width=88) (actual time=0.026..0.026 rows=6.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=27
+                          ->  Nested Loop  (cost=0.29..28.71 rows=1 width=88) (actual time=0.018..0.023 rows=6.00 loops=1)
+                                Buffers: shared hit=27
+                                ->  Nested Loop  (cost=0.14..20.48 rows=1 width=54) (actual time=0.016..0.018 rows=6.00 loops=1)
+                                      Buffers: shared hit=15
+                                      ->  Seq Scan on matches m  (cost=0.00..12.25 rows=1 width=20) (actual time=0.013..0.013 rows=6.00 loops=1)
+                                            Filter: ((status)::text = 'UPCOMING'::text)
+                                            Rows Removed by Filter: 206
+                                            Buffers: shared hit=3
+                                      ->  Index Scan using teams_pkey on teams h  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                            Index Cond: (team_id = m.home_team_id)
+                                            Index Searches: 6
+                                            Buffers: shared hit=12
+                                ->  Index Scan using teams_pkey on teams a  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                      Index Cond: (team_id = m.away_team_id)
+                                      Index Searches: 6
+                                      Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=223
+Planning Time: 0.417 ms
+Execution Time: 0.296 ms
+=== R01 run 3 ===
+Sort  (cost=90.25..90.27 rows=5 width=160) (actual time=0.258..0.259 rows=6.00 loops=1)
+  Sort Key: m.starts_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=84
+  ->  GroupAggregate  (cost=90.03..90.20 rows=5 width=160) (actual time=0.243..0.251 rows=6.00 loops=1)
+        Group Key: m.match_id, h.short_name, a.short_name
+        Buffers: shared hit=81
+        ->  Sort  (cost=90.03..90.05 rows=5 width=108) (actual time=0.233..0.235 rows=72.00 loops=1)
+              Sort Key: m.match_id, h.short_name, a.short_name
+              Sort Method: quicksort  Memory: 28kB
+              Buffers: shared hit=81
+              ->  Hash Right Join  (cost=28.73..89.98 rows=5 width=108) (actual time=0.186..0.208 rows=72.00 loops=1)
+                    Hash Cond: (c.match_id = m.match_id)
+                    Buffers: shared hit=75
+                    ->  Seq Scan on contests c  (cost=0.00..57.60 rows=960 width=24) (actual time=0.003..0.102 rows=2544.00 loops=1)
+                          Buffers: shared hit=48
+                    ->  Hash  (cost=28.71..28.71 rows=1 width=88) (actual time=0.026..0.026 rows=6.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=27
+                          ->  Nested Loop  (cost=0.29..28.71 rows=1 width=88) (actual time=0.018..0.023 rows=6.00 loops=1)
+                                Buffers: shared hit=27
+                                ->  Nested Loop  (cost=0.14..20.48 rows=1 width=54) (actual time=0.016..0.018 rows=6.00 loops=1)
+                                      Buffers: shared hit=15
+                                      ->  Seq Scan on matches m  (cost=0.00..12.25 rows=1 width=20) (actual time=0.013..0.013 rows=6.00 loops=1)
+                                            Filter: ((status)::text = 'UPCOMING'::text)
+                                            Rows Removed by Filter: 206
+                                            Buffers: shared hit=3
+                                      ->  Index Scan using teams_pkey on teams h  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                            Index Cond: (team_id = m.home_team_id)
+                                            Index Searches: 6
+                                            Buffers: shared hit=12
+                                ->  Index Scan using teams_pkey on teams a  (cost=0.14..8.16 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=6)
+                                      Index Cond: (team_id = m.away_team_id)
+                                      Index Searches: 6
+                                      Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=223
+Planning Time: 0.428 ms
+Execution Time: 0.304 ms
