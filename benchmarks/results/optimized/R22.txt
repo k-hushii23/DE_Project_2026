@@ -1,0 +1,60 @@
+=== R22 run 1 ===
+Sort  (cost=1934.61..1934.67 rows=25 width=36) (actual time=4.942..4.943 rows=25.00 loops=1)
+  Sort Key: w.created_at DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=701 read=106
+  ->  Nested Loop  (cost=1725.46..1934.03 rows=25 width=36) (actual time=4.921..4.933 rows=25.00 loops=1)
+        Buffers: shared hit=698 read=106
+        ->  Limit  (cost=1725.17..1726.03 rows=25 width=12) (actual time=4.913..4.915 rows=25.00 loops=1)
+              Buffers: shared hit=623 read=106
+              ->  Index Scan using idx_wallet_txn_created_desc on wallet_transactions  (cost=0.42..4082.66 rows=118343 width=12) (actual time=0.006..4.109 rows=50025.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=623 read=106
+        ->  Index Scan using wallet_transactions_pkey on wallet_transactions w  (cost=0.29..8.31 rows=1 width=36) (actual time=0.001..0.001 rows=1.00 loops=25)
+              Index Cond: (txn_id = wallet_transactions.txn_id)
+              Index Searches: 25
+              Buffers: shared hit=75
+Planning:
+  Buffers: shared hit=273 dirtied=1
+Planning Time: 0.447 ms
+Execution Time: 4.959 ms
+=== R22 run 2 ===
+Sort  (cost=1934.61..1934.67 rows=25 width=36) (actual time=3.759..3.760 rows=25.00 loops=1)
+  Sort Key: w.created_at DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=807
+  ->  Nested Loop  (cost=1725.46..1934.03 rows=25 width=36) (actual time=3.739..3.750 rows=25.00 loops=1)
+        Buffers: shared hit=804
+        ->  Limit  (cost=1725.17..1726.03 rows=25 width=12) (actual time=3.733..3.736 rows=25.00 loops=1)
+              Buffers: shared hit=729
+              ->  Index Scan using idx_wallet_txn_created_desc on wallet_transactions  (cost=0.42..4082.66 rows=118343 width=12) (actual time=0.005..2.958 rows=50025.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=729
+        ->  Index Scan using wallet_transactions_pkey on wallet_transactions w  (cost=0.29..8.31 rows=1 width=36) (actual time=0.000..0.000 rows=1.00 loops=25)
+              Index Cond: (txn_id = wallet_transactions.txn_id)
+              Index Searches: 25
+              Buffers: shared hit=75
+Planning:
+  Buffers: shared hit=272
+Planning Time: 0.361 ms
+Execution Time: 3.778 ms
+=== R22 run 3 ===
+Sort  (cost=1934.61..1934.67 rows=25 width=36) (actual time=3.708..3.709 rows=25.00 loops=1)
+  Sort Key: w.created_at DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=807
+  ->  Nested Loop  (cost=1725.46..1934.03 rows=25 width=36) (actual time=3.687..3.699 rows=25.00 loops=1)
+        Buffers: shared hit=804
+        ->  Limit  (cost=1725.17..1726.03 rows=25 width=12) (actual time=3.682..3.684 rows=25.00 loops=1)
+              Buffers: shared hit=729
+              ->  Index Scan using idx_wallet_txn_created_desc on wallet_transactions  (cost=0.42..4082.66 rows=118343 width=12) (actual time=0.005..2.906 rows=50025.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=729
+        ->  Index Scan using wallet_transactions_pkey on wallet_transactions w  (cost=0.29..8.31 rows=1 width=36) (actual time=0.000..0.000 rows=1.00 loops=25)
+              Index Cond: (txn_id = wallet_transactions.txn_id)
+              Index Searches: 25
+              Buffers: shared hit=75
+Planning:
+  Buffers: shared hit=272
+Planning Time: 0.343 ms
+Execution Time: 3.725 ms

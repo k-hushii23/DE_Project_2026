@@ -236,7 +236,7 @@ ORDER BY day;
 
 -- @R21
 SELECT ut.user_id, count(*) AS h2h_played,
-       round(100.0 * count() FILTER (WHERE ce.final_rank = 1) / count(), 1) AS win_pct
+       round(100.0 * count(*) FILTER (WHERE ce.final_rank = 1) / count(*), 1) AS win_pct
 FROM contest_entries ce
 JOIN contests c    ON c.contest_id = ce.contest_id AND c.contest_type = 'HEAD_TO_HEAD'
 JOIN user_teams ut ON ut.user_team_id = ce.user_team_id

@@ -1,0 +1,108 @@
+=== R05 run 1 ===
+Limit  (cost=580.96..581.15 rows=77 width=33) (actual time=0.411..0.415 rows=67.00 loops=1)
+  Buffers: shared hit=412
+  ->  Sort  (cost=580.96..581.15 rows=77 width=33) (actual time=0.410..0.412 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=412
+        ->  WindowAgg  (cost=577.22..578.55 rows=77 width=33) (actual time=0.385..0.401 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=409
+              ->  Sort  (cost=577.20..577.39 rows=77 width=25) (actual time=0.380..0.382 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=409
+                    ->  Nested Loop  (cost=0.87..574.79 rows=77 width=25) (actual time=0.014..0.360 rows=67.00 loops=1)
+                          Buffers: shared hit=406
+                          ->  Nested Loop  (cost=0.58..545.32 rows=77 width=12) (actual time=0.009..0.171 rows=67.00 loops=1)
+                                Buffers: shared hit=205
+                                ->  Index Only Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..9.64 rows=77 width=4) (actual time=0.004..0.008 rows=67.00 loops=1)
+                                      Index Cond: (contest_id = 2185)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=4
+                                ->  Index Scan using user_teams_pkey on user_teams ut  (cost=0.29..6.96 rows=1 width=16) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                      Index Cond: (user_team_id = ce.user_team_id)
+                                      Index Searches: 67
+                                      Buffers: shared hit=201
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.38 rows=1 width=21) (actual time=0.003..0.003 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=437
+Planning Time: 0.892 ms
+Execution Time: 0.448 ms
+=== R05 run 2 ===
+Limit  (cost=580.96..581.15 rows=77 width=33) (actual time=0.408..0.412 rows=67.00 loops=1)
+  Buffers: shared hit=412
+  ->  Sort  (cost=580.96..581.15 rows=77 width=33) (actual time=0.407..0.409 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=412
+        ->  WindowAgg  (cost=577.22..578.55 rows=77 width=33) (actual time=0.381..0.398 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=409
+              ->  Sort  (cost=577.20..577.39 rows=77 width=25) (actual time=0.377..0.379 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=409
+                    ->  Nested Loop  (cost=0.87..574.79 rows=77 width=25) (actual time=0.014..0.357 rows=67.00 loops=1)
+                          Buffers: shared hit=406
+                          ->  Nested Loop  (cost=0.58..545.32 rows=77 width=12) (actual time=0.009..0.169 rows=67.00 loops=1)
+                                Buffers: shared hit=205
+                                ->  Index Only Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..9.64 rows=77 width=4) (actual time=0.004..0.008 rows=67.00 loops=1)
+                                      Index Cond: (contest_id = 2185)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=4
+                                ->  Index Scan using user_teams_pkey on user_teams ut  (cost=0.29..6.96 rows=1 width=16) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                      Index Cond: (user_team_id = ce.user_team_id)
+                                      Index Searches: 67
+                                      Buffers: shared hit=201
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.38 rows=1 width=21) (actual time=0.003..0.003 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=437
+Planning Time: 0.823 ms
+Execution Time: 0.445 ms
+=== R05 run 3 ===
+Limit  (cost=580.96..581.15 rows=77 width=33) (actual time=0.421..0.426 rows=67.00 loops=1)
+  Buffers: shared hit=412
+  ->  Sort  (cost=580.96..581.15 rows=77 width=33) (actual time=0.421..0.423 rows=67.00 loops=1)
+        Sort Key: (rank() OVER w1)
+        Sort Method: quicksort  Memory: 29kB
+        Buffers: shared hit=412
+        ->  WindowAgg  (cost=577.22..578.55 rows=77 width=33) (actual time=0.393..0.411 rows=67.00 loops=1)
+              Window: w1 AS (ORDER BY ut.total_points ROWS UNBOUNDED PRECEDING)
+              Storage: Memory  Maximum Storage: 17kB
+              Buffers: shared hit=409
+              ->  Sort  (cost=577.20..577.39 rows=77 width=25) (actual time=0.388..0.390 rows=67.00 loops=1)
+                    Sort Key: ut.total_points DESC
+                    Sort Method: quicksort  Memory: 28kB
+                    Buffers: shared hit=409
+                    ->  Nested Loop  (cost=0.87..574.79 rows=77 width=25) (actual time=0.015..0.367 rows=67.00 loops=1)
+                          Buffers: shared hit=406
+                          ->  Nested Loop  (cost=0.58..545.32 rows=77 width=12) (actual time=0.009..0.173 rows=67.00 loops=1)
+                                Buffers: shared hit=205
+                                ->  Index Only Scan using contest_entries_contest_id_user_team_id_key on contest_entries ce  (cost=0.29..9.64 rows=77 width=4) (actual time=0.005..0.009 rows=67.00 loops=1)
+                                      Index Cond: (contest_id = 2185)
+                                      Heap Fetches: 0
+                                      Index Searches: 1
+                                      Buffers: shared hit=4
+                                ->  Index Scan using user_teams_pkey on user_teams ut  (cost=0.29..6.96 rows=1 width=16) (actual time=0.002..0.002 rows=1.00 loops=67)
+                                      Index Cond: (user_team_id = ce.user_team_id)
+                                      Index Searches: 67
+                                      Buffers: shared hit=201
+                          ->  Index Scan using users_pkey on users u  (cost=0.29..0.38 rows=1 width=21) (actual time=0.003..0.003 rows=1.00 loops=67)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 67
+                                Buffers: shared hit=201
+Planning:
+  Buffers: shared hit=437
+Planning Time: 0.912 ms
+Execution Time: 0.461 ms
