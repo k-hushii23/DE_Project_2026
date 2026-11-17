@@ -1,0 +1,108 @@
+=== R15 run 1 ===
+Limit  (cost=13190.96..13191.01 rows=20 width=64) (actual time=19.278..19.292 rows=20.00 loops=1)
+  Buffers: shared hit=177434
+  ->  Sort  (cost=13190.96..13247.44 rows=22593 width=64) (actual time=19.278..19.290 rows=20.00 loops=1)
+        Sort Key: (sum(ce.winnings)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=177434
+        ->  HashAggregate  (cost=12307.35..12589.77 rows=22593 width=64) (actual time=16.567..18.368 rows=13300.00 loops=1)
+              Group Key: u.username
+              Batches: 1  Memory Usage: 5649kB
+              Buffers: shared hit=177431
+              ->  Gather  (cost=1001.36..12081.42 rows=22593 width=27) (actual time=0.113..12.738 rows=22485.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=177431
+                    ->  Nested Loop  (cost=1.36..8822.12 rows=9414 width=27) (actual time=0.229..13.214 rows=7495.00 loops=3)
+                          Buffers: shared hit=177431
+                          ->  Merge Join  (cost=0.94..3860.72 rows=9414 width=7) (actual time=0.221..7.033 rows=7495.00 loops=3)
+                                Merge Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=87489
+                                ->  Parallel Index Scan using user_teams_pkey on user_teams ut  (cost=0.42..23342.74 rows=347060 width=8) (actual time=0.005..0.784 rows=13325.33 loops=3)
+                                      Index Searches: 1
+                                      Buffers: shared hit=553
+                                ->  Index Scan using idx_contest_entries_team_id on contest_entries ce  (cost=0.29..2484.31 rows=22593 width=7) (actual time=0.008..4.905 rows=22485.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 20261
+                                      Index Searches: 3
+                                      Buffers: shared hit=86936
+                          ->  Index Scan using users_pkey on users u  (cost=0.42..0.53 rows=1 width=24) (actual time=0.001..0.001 rows=1.00 loops=22485)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 22485
+                                Buffers: shared hit=89942
+Planning:
+  Buffers: shared hit=389
+Planning Time: 0.788 ms
+Execution Time: 19.361 ms
+=== R15 run 2 ===
+Limit  (cost=13190.96..13191.01 rows=20 width=64) (actual time=18.963..18.977 rows=20.00 loops=1)
+  Buffers: shared hit=177435
+  ->  Sort  (cost=13190.96..13247.44 rows=22593 width=64) (actual time=18.962..18.976 rows=20.00 loops=1)
+        Sort Key: (sum(ce.winnings)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=177435
+        ->  HashAggregate  (cost=12307.35..12589.77 rows=22593 width=64) (actual time=16.372..18.049 rows=13300.00 loops=1)
+              Group Key: u.username
+              Batches: 1  Memory Usage: 5649kB
+              Buffers: shared hit=177432
+              ->  Gather  (cost=1001.36..12081.42 rows=22593 width=27) (actual time=0.089..12.619 rows=22485.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=177432
+                    ->  Nested Loop  (cost=1.36..8822.12 rows=9414 width=27) (actual time=0.196..13.137 rows=7495.00 loops=3)
+                          Buffers: shared hit=177432
+                          ->  Merge Join  (cost=0.94..3860.72 rows=9414 width=7) (actual time=0.188..7.022 rows=7495.00 loops=3)
+                                Merge Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=87490
+                                ->  Parallel Index Scan using user_teams_pkey on user_teams ut  (cost=0.42..23342.74 rows=347060 width=8) (actual time=0.004..0.789 rows=13325.33 loops=3)
+                                      Index Searches: 1
+                                      Buffers: shared hit=554
+                                ->  Index Scan using idx_contest_entries_team_id on contest_entries ce  (cost=0.29..2484.31 rows=22593 width=7) (actual time=0.007..4.892 rows=22485.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 20261
+                                      Index Searches: 3
+                                      Buffers: shared hit=86936
+                          ->  Index Scan using users_pkey on users u  (cost=0.42..0.53 rows=1 width=24) (actual time=0.001..0.001 rows=1.00 loops=22485)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 22485
+                                Buffers: shared hit=89942
+Planning:
+  Buffers: shared hit=389
+Planning Time: 0.676 ms
+Execution Time: 19.043 ms
+=== R15 run 3 ===
+Limit  (cost=13190.96..13191.01 rows=20 width=64) (actual time=19.465..19.486 rows=20.00 loops=1)
+  Buffers: shared hit=177434
+  ->  Sort  (cost=13190.96..13247.44 rows=22593 width=64) (actual time=19.464..19.484 rows=20.00 loops=1)
+        Sort Key: (sum(ce.winnings)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=177434
+        ->  HashAggregate  (cost=12307.35..12589.77 rows=22593 width=64) (actual time=16.697..18.563 rows=13300.00 loops=1)
+              Group Key: u.username
+              Batches: 1  Memory Usage: 5649kB
+              Buffers: shared hit=177431
+              ->  Gather  (cost=1001.36..12081.42 rows=22593 width=27) (actual time=0.121..12.896 rows=22485.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=177431
+                    ->  Nested Loop  (cost=1.36..8822.12 rows=9414 width=27) (actual time=0.219..13.301 rows=7495.00 loops=3)
+                          Buffers: shared hit=177431
+                          ->  Merge Join  (cost=0.94..3860.72 rows=9414 width=7) (actual time=0.211..7.074 rows=7495.00 loops=3)
+                                Merge Cond: (ut.user_team_id = ce.user_team_id)
+                                Buffers: shared hit=87489
+                                ->  Parallel Index Scan using user_teams_pkey on user_teams ut  (cost=0.42..23342.74 rows=347060 width=8) (actual time=0.004..0.800 rows=13325.33 loops=3)
+                                      Index Searches: 1
+                                      Buffers: shared hit=553
+                                ->  Index Scan using idx_contest_entries_team_id on contest_entries ce  (cost=0.29..2484.31 rows=22593 width=7) (actual time=0.007..4.940 rows=22485.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 20261
+                                      Index Searches: 3
+                                      Buffers: shared hit=86936
+                          ->  Index Scan using users_pkey on users u  (cost=0.42..0.53 rows=1 width=24) (actual time=0.001..0.001 rows=1.00 loops=22485)
+                                Index Cond: (user_id = ut.user_id)
+                                Index Searches: 22485
+                                Buffers: shared hit=89942
+Planning:
+  Buffers: shared hit=389
+Planning Time: 0.682 ms
+Execution Time: 19.552 ms

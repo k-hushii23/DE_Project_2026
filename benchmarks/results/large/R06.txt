@@ -1,0 +1,144 @@
+=== R06 run 1 ===
+GroupAggregate  (cost=19754.14..28896.82 rows=200 width=76) (actual time=169.488..179.872 rows=1020.00 loops=1)
+  Group Key: ut.user_team_id
+  Filter: ((sum((count(*))) <> '11'::numeric) OR (sum((sum(p.credits))) > '100'::numeric) OR (max((count(*))) > 7))
+  Rows Removed by Filter: 4540
+  Buffers: shared hit=14676 read=6061 dirtied=1656 written=3988
+  ->  GroupAggregate  (cost=19754.14..27742.62 rows=57485 width=48) (actual time=169.475..178.156 rows=11120.00 loops=1)
+        Group Key: ut.user_team_id, p.team_id
+        Buffers: shared hit=14676 read=6061 dirtied=1656 written=3988
+        ->  Gather Merge  (cost=19754.14..26449.21 rows=57485 width=14) (actual time=169.460..173.299 rows=61240.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=14676 read=6061 dirtied=1656 written=3988
+              ->  Sort  (cost=18754.11..18813.99 rows=23952 width=14) (actual time=164.883..165.267 rows=20413.33 loops=3)
+                    Sort Key: ut.user_team_id, p.team_id
+                    Sort Method: quicksort  Memory: 1393kB
+                    Buffers: shared hit=14676 read=6061 dirtied=1656 written=3988
+                    Worker 0:  Sort Method: quicksort  Memory: 1402kB
+                    Worker 1:  Sort Method: quicksort  Memory: 1424kB
+                    ->  Hash Join  (cost=77.16..17011.86 rows=23952 width=14) (actual time=0.866..163.531 rows=20413.33 loops=3)
+                          Hash Cond: (utp.player_id = p.player_id)
+                          Buffers: shared hit=14662 read=6061 dirtied=1656 written=3988
+                          ->  Nested Loop  (cost=63.04..16934.27 rows=23952 width=8) (actual time=0.784..161.507 rows=20413.33 loops=3)
+                                Buffers: shared hit=14610 read=6061 dirtied=1656 written=3988
+                                ->  Parallel Bitmap Heap Scan on user_teams ut  (cost=62.60..6914.38 rows=2268 width=4) (actual time=0.717..13.507 rows=1853.33 loops=3)
+                                      Recheck Cond: (match_id = 183)
+                                      Heap Blocks: exact=1336
+                                      Buffers: shared hit=1706 read=2277 dirtied=1656 written=1428
+                                      Worker 0:  Heap Blocks: exact=1279
+                                      Worker 1:  Heap Blocks: exact=1337
+                                      ->  Bitmap Index Scan on idx_user_teams_match_id  (cost=0.00..61.24 rows=5442 width=0) (actual time=1.833..1.833 rows=36616.00 loops=1)
+                                            Index Cond: (match_id = 183)
+                                            Index Searches: 1
+                                            Buffers: shared hit=12 read=19
+                                ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.28 rows=14 width=8) (actual time=0.079..0.079 rows=11.01 loops=5560)
+                                      Index Cond: (user_team_id = ut.user_team_id)
+                                      Heap Fetches: 0
+                                      Index Searches: 5560
+                                      Buffers: shared hit=12904 read=3784 written=2560
+                          ->  Hash  (cost=8.50..8.50 rows=450 width=14) (actual time=0.077..0.077 rows=450.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                                Buffers: shared hit=52
+                                ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=14) (actual time=0.026..0.052 rows=450.00 loops=3)
+                                      Buffers: shared hit=52
+Planning:
+  Buffers: shared hit=283 read=7
+Planning Time: 4.142 ms
+Execution Time: 179.948 ms
+=== R06 run 2 ===
+GroupAggregate  (cost=19754.14..28896.82 rows=200 width=76) (actual time=16.694..27.217 rows=1020.00 loops=1)
+  Group Key: ut.user_team_id
+  Filter: ((sum((count(*))) <> '11'::numeric) OR (sum((sum(p.credits))) > '100'::numeric) OR (max((count(*))) > 7))
+  Rows Removed by Filter: 4540
+  Buffers: shared hit=18401 read=2336 written=497
+  ->  GroupAggregate  (cost=19754.14..27742.62 rows=57485 width=48) (actual time=16.679..25.545 rows=11120.00 loops=1)
+        Group Key: ut.user_team_id, p.team_id
+        Buffers: shared hit=18401 read=2336 written=497
+        ->  Gather Merge  (cost=19754.14..26449.21 rows=57485 width=14) (actual time=16.644..20.747 rows=61240.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=18401 read=2336 written=497
+              ->  Sort  (cost=18754.11..18813.99 rows=23952 width=14) (actual time=14.566..14.969 rows=20413.33 loops=3)
+                    Sort Key: ut.user_team_id, p.team_id
+                    Sort Method: quicksort  Memory: 1461kB
+                    Buffers: shared hit=18401 read=2336 written=497
+                    Worker 0:  Sort Method: quicksort  Memory: 1373kB
+                    Worker 1:  Sort Method: quicksort  Memory: 1386kB
+                    ->  Hash Join  (cost=77.16..17011.86 rows=23952 width=14) (actual time=0.608..13.231 rows=20413.33 loops=3)
+                          Hash Cond: (utp.player_id = p.player_id)
+                          Buffers: shared hit=18387 read=2336 written=497
+                          ->  Nested Loop  (cost=63.04..16934.27 rows=23952 width=8) (actual time=0.525..11.368 rows=20413.33 loops=3)
+                                Buffers: shared hit=18335 read=2336 written=497
+                                ->  Parallel Bitmap Heap Scan on user_teams ut  (cost=62.60..6914.38 rows=2268 width=4) (actual time=0.439..3.354 rows=1853.33 loops=3)
+                                      Recheck Cond: (match_id = 183)
+                                      Heap Blocks: exact=1410
+                                      Buffers: shared hit=3087 read=896 written=230
+                                      Worker 0:  Heap Blocks: exact=1250
+                                      Worker 1:  Heap Blocks: exact=1292
+                                      ->  Bitmap Index Scan on idx_user_teams_match_id  (cost=0.00..61.24 rows=5442 width=0) (actual time=0.882..0.882 rows=36616.00 loops=1)
+                                            Index Cond: (match_id = 183)
+                                            Index Searches: 1
+                                            Buffers: shared hit=1 read=30 written=12
+                                ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.28 rows=14 width=8) (actual time=0.003..0.004 rows=11.01 loops=5560)
+                                      Index Cond: (user_team_id = ut.user_team_id)
+                                      Heap Fetches: 0
+                                      Index Searches: 5560
+                                      Buffers: shared hit=15248 read=1440 written=267
+                          ->  Hash  (cost=8.50..8.50 rows=450 width=14) (actual time=0.078..0.078 rows=450.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                                Buffers: shared hit=52
+                                ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=14) (actual time=0.026..0.051 rows=450.00 loops=3)
+                                      Buffers: shared hit=52
+Planning:
+  Buffers: shared hit=283 read=7 written=3
+Planning Time: 0.796 ms
+Execution Time: 27.304 ms
+=== R06 run 3 ===
+GroupAggregate  (cost=19754.14..28896.82 rows=200 width=76) (actual time=11.313..21.306 rows=1020.00 loops=1)
+  Group Key: ut.user_team_id
+  Filter: ((sum((count(*))) <> '11'::numeric) OR (sum((sum(p.credits))) > '100'::numeric) OR (max((count(*))) > 7))
+  Rows Removed by Filter: 4540
+  Buffers: shared hit=20737
+  ->  GroupAggregate  (cost=19754.14..27742.62 rows=57485 width=48) (actual time=11.304..19.728 rows=11120.00 loops=1)
+        Group Key: ut.user_team_id, p.team_id
+        Buffers: shared hit=20737
+        ->  Gather Merge  (cost=19754.14..26449.21 rows=57485 width=14) (actual time=11.293..15.124 rows=61240.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=20737
+              ->  Sort  (cost=18754.11..18813.99 rows=23952 width=14) (actual time=9.903..10.318 rows=20413.33 loops=3)
+                    Sort Key: ut.user_team_id, p.team_id
+                    Sort Method: quicksort  Memory: 1475kB
+                    Buffers: shared hit=20737
+                    Worker 0:  Sort Method: quicksort  Memory: 1381kB
+                    Worker 1:  Sort Method: quicksort  Memory: 1363kB
+                    ->  Hash Join  (cost=77.16..17011.86 rows=23952 width=14) (actual time=0.384..8.771 rows=20413.33 loops=3)
+                          Hash Cond: (utp.player_id = p.player_id)
+                          Buffers: shared hit=20723
+                          ->  Nested Loop  (cost=63.04..16934.27 rows=23952 width=8) (actual time=0.315..7.209 rows=20413.33 loops=3)
+                                Buffers: shared hit=20671
+                                ->  Parallel Bitmap Heap Scan on user_teams ut  (cost=62.60..6914.38 rows=2268 width=4) (actual time=0.297..1.929 rows=1853.33 loops=3)
+                                      Recheck Cond: (match_id = 183)
+                                      Heap Blocks: exact=1468
+                                      Buffers: shared hit=3983
+                                      Worker 0:  Heap Blocks: exact=1242
+                                      Worker 1:  Heap Blocks: exact=1242
+                                      ->  Bitmap Index Scan on idx_user_teams_match_id  (cost=0.00..61.24 rows=5442 width=0) (actual time=0.585..0.585 rows=36616.00 loops=1)
+                                            Index Cond: (match_id = 183)
+                                            Index Searches: 1
+                                            Buffers: shared hit=31
+                                ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.28 rows=14 width=8) (actual time=0.002..0.002 rows=11.01 loops=5560)
+                                      Index Cond: (user_team_id = ut.user_team_id)
+                                      Heap Fetches: 0
+                                      Index Searches: 5560
+                                      Buffers: shared hit=16688
+                          ->  Hash  (cost=8.50..8.50 rows=450 width=14) (actual time=0.066..0.066 rows=450.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                                Buffers: shared hit=52
+                                ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=14) (actual time=0.022..0.043 rows=450.00 loops=3)
+                                      Buffers: shared hit=52
+Planning:
+  Buffers: shared hit=290
+Planning Time: 0.637 ms
+Execution Time: 21.378 ms

@@ -1,0 +1,102 @@
+=== R07 run 1 ===
+Sort  (cost=25.25..25.28 rows=11 width=79) (actual time=0.546..0.547 rows=11.00 loops=1)
+  Sort Key: ((COALESCE(s.fantasy_points, '0'::numeric) * CASE WHEN (p.player_id = ut.captain_id) THEN '2'::numeric WHEN (p.player_id = ut.vice_captain_id) THEN 1.5 ELSE '1'::numeric END)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=71 read=3
+  ->  Nested Loop Left Join  (cost=1.42..25.06 rows=11 width=79) (actual time=0.514..0.535 rows=11.00 loops=1)
+        Buffers: shared hit=68 read=3
+        ->  Nested Loop  (cost=1.13..16.46 rows=11 width=31) (actual time=0.020..0.029 rows=11.00 loops=1)
+              Buffers: shared hit=42
+              ->  Nested Loop  (cost=0.86..13.27 rows=11 width=16) (actual time=0.016..0.017 rows=11.00 loops=1)
+                    Buffers: shared hit=9
+                    ->  Index Scan using idx_user_teams_user_match on user_teams ut  (cost=0.42..8.45 rows=1 width=16) (actual time=0.009..0.009 rows=1.00 loops=1)
+                          Index Cond: ((user_id = 1006) AND (match_id = 130))
+                          Filter: ((team_label)::text = 'T1'::text)
+                          Rows Removed by Filter: 1
+                          Index Searches: 1
+                          Buffers: shared hit=5
+                    ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.68 rows=14 width=8) (actual time=0.006..0.007 rows=11.00 loops=1)
+                          Index Cond: (user_team_id = ut.user_team_id)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Index Scan using players_pkey on players p  (cost=0.27..0.29 rows=1 width=19) (actual time=0.001..0.001 rows=1.00 loops=11)
+                    Index Cond: (player_id = utp.player_id)
+                    Index Searches: 11
+                    Buffers: shared hit=33
+        ->  Index Scan using player_match_stats_pkey on player_match_stats s  (cost=0.28..0.76 rows=1 width=13) (actual time=0.045..0.045 rows=0.64 loops=11)
+              Index Cond: ((match_id = 130) AND (player_id = p.player_id))
+              Index Searches: 11
+              Buffers: shared hit=26 read=3
+Planning:
+  Buffers: shared hit=380 read=2
+Planning Time: 1.011 ms
+Execution Time: 0.570 ms
+=== R07 run 2 ===
+Sort  (cost=25.25..25.28 rows=11 width=79) (actual time=0.048..0.049 rows=11.00 loops=1)
+  Sort Key: ((COALESCE(s.fantasy_points, '0'::numeric) * CASE WHEN (p.player_id = ut.captain_id) THEN '2'::numeric WHEN (p.player_id = ut.vice_captain_id) THEN 1.5 ELSE '1'::numeric END)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=74
+  ->  Nested Loop Left Join  (cost=1.42..25.06 rows=11 width=79) (actual time=0.025..0.039 rows=11.00 loops=1)
+        Buffers: shared hit=71
+        ->  Nested Loop  (cost=1.13..16.46 rows=11 width=31) (actual time=0.018..0.024 rows=11.00 loops=1)
+              Buffers: shared hit=42
+              ->  Nested Loop  (cost=0.86..13.27 rows=11 width=16) (actual time=0.014..0.015 rows=11.00 loops=1)
+                    Buffers: shared hit=9
+                    ->  Index Scan using idx_user_teams_user_match on user_teams ut  (cost=0.42..8.45 rows=1 width=16) (actual time=0.008..0.008 rows=1.00 loops=1)
+                          Index Cond: ((user_id = 1006) AND (match_id = 130))
+                          Filter: ((team_label)::text = 'T1'::text)
+                          Rows Removed by Filter: 1
+                          Index Searches: 1
+                          Buffers: shared hit=5
+                    ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.68 rows=14 width=8) (actual time=0.006..0.006 rows=11.00 loops=1)
+                          Index Cond: (user_team_id = ut.user_team_id)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Index Scan using players_pkey on players p  (cost=0.27..0.29 rows=1 width=19) (actual time=0.001..0.001 rows=1.00 loops=11)
+                    Index Cond: (player_id = utp.player_id)
+                    Index Searches: 11
+                    Buffers: shared hit=33
+        ->  Index Scan using player_match_stats_pkey on player_match_stats s  (cost=0.28..0.76 rows=1 width=13) (actual time=0.001..0.001 rows=0.64 loops=11)
+              Index Cond: ((match_id = 130) AND (player_id = p.player_id))
+              Index Searches: 11
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=382
+Planning Time: 0.678 ms
+Execution Time: 0.070 ms
+=== R07 run 3 ===
+Sort  (cost=25.25..25.28 rows=11 width=79) (actual time=0.048..0.048 rows=11.00 loops=1)
+  Sort Key: ((COALESCE(s.fantasy_points, '0'::numeric) * CASE WHEN (p.player_id = ut.captain_id) THEN '2'::numeric WHEN (p.player_id = ut.vice_captain_id) THEN 1.5 ELSE '1'::numeric END)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=74
+  ->  Nested Loop Left Join  (cost=1.42..25.06 rows=11 width=79) (actual time=0.025..0.038 rows=11.00 loops=1)
+        Buffers: shared hit=71
+        ->  Nested Loop  (cost=1.13..16.46 rows=11 width=31) (actual time=0.018..0.024 rows=11.00 loops=1)
+              Buffers: shared hit=42
+              ->  Nested Loop  (cost=0.86..13.27 rows=11 width=16) (actual time=0.014..0.015 rows=11.00 loops=1)
+                    Buffers: shared hit=9
+                    ->  Index Scan using idx_user_teams_user_match on user_teams ut  (cost=0.42..8.45 rows=1 width=16) (actual time=0.008..0.008 rows=1.00 loops=1)
+                          Index Cond: ((user_id = 1006) AND (match_id = 130))
+                          Filter: ((team_label)::text = 'T1'::text)
+                          Rows Removed by Filter: 1
+                          Index Searches: 1
+                          Buffers: shared hit=5
+                    ->  Index Only Scan using user_team_players_pkey on user_team_players utp  (cost=0.43..4.68 rows=14 width=8) (actual time=0.006..0.006 rows=11.00 loops=1)
+                          Index Cond: (user_team_id = ut.user_team_id)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Index Scan using players_pkey on players p  (cost=0.27..0.29 rows=1 width=19) (actual time=0.001..0.001 rows=1.00 loops=11)
+                    Index Cond: (player_id = utp.player_id)
+                    Index Searches: 11
+                    Buffers: shared hit=33
+        ->  Index Scan using player_match_stats_pkey on player_match_stats s  (cost=0.28..0.76 rows=1 width=13) (actual time=0.001..0.001 rows=0.64 loops=11)
+              Index Cond: ((match_id = 130) AND (player_id = p.player_id))
+              Index Searches: 11
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=382
+Planning Time: 0.771 ms
+Execution Time: 0.070 ms

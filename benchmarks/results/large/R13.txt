@@ -1,0 +1,72 @@
+=== R13 run 1 ===
+Hash Join  (cost=93.18..3030.91 rows=4077 width=16) (actual time=0.676..8.715 rows=128.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=775 read=146
+  ->  Merge Anti Join  (cost=0.58..2927.59 rows=4077 width=16) (actual time=0.398..8.418 rows=128.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=746 read=146
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.29..1448.48 rows=42746 width=16) (actual time=0.004..2.083 rows=42746.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=446
+        ->  Index Only Scan using idx_wallet_txn_ref_entry on wallet_transactions w  (cost=0.29..1448.32 rows=118343 width=4) (actual time=0.339..3.936 rows=55343.00 loops=1)
+              Heap Fetches: 858
+              Index Searches: 1
+              Buffers: shared hit=300 read=146
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.271..0.271 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.004..0.171 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=395
+Planning Time: 0.687 ms
+Execution Time: 8.740 ms
+=== R13 run 2 ===
+Hash Join  (cost=93.18..3030.91 rows=4077 width=16) (actual time=0.312..6.415 rows=128.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=921
+  ->  Merge Anti Join  (cost=0.58..2927.59 rows=4077 width=16) (actual time=0.072..6.160 rows=128.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=892
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.29..1448.48 rows=42746 width=16) (actual time=0.003..2.027 rows=42746.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=446
+        ->  Index Only Scan using idx_wallet_txn_ref_entry on wallet_transactions w  (cost=0.29..1448.32 rows=118343 width=4) (actual time=0.021..1.685 rows=55343.00 loops=1)
+              Heap Fetches: 858
+              Index Searches: 1
+              Buffers: shared hit=446
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.236..0.236 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.003..0.155 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=395
+Planning Time: 0.596 ms
+Execution Time: 6.437 ms
+=== R13 run 3 ===
+Hash Join  (cost=93.18..3030.91 rows=4077 width=16) (actual time=0.320..6.307 rows=128.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=921
+  ->  Merge Anti Join  (cost=0.58..2927.59 rows=4077 width=16) (actual time=0.071..6.044 rows=128.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=892
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.29..1448.48 rows=42746 width=16) (actual time=0.003..2.017 rows=42746.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=446
+        ->  Index Only Scan using idx_wallet_txn_ref_entry on wallet_transactions w  (cost=0.29..1448.32 rows=118343 width=4) (actual time=0.021..1.688 rows=55343.00 loops=1)
+              Heap Fetches: 858
+              Index Searches: 1
+              Buffers: shared hit=446
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.237..0.237 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.003..0.154 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=395
+Planning Time: 0.594 ms
+Execution Time: 6.331 ms
